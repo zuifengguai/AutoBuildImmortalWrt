@@ -60,12 +60,12 @@ esac
 
 # 3. 配置网络
 if [ "$count" -eq 1 ]; then
-    # 单网口设备，DHCP模式
-    uci set network.lan.proto='dhcp'
-    uci delete network.lan.ipaddr
-    uci delete network.lan.netmask
-    uci delete network.lan.gateway
-    uci delete network.lan.dns
+    # 单网口设备，改静态模式
+    uci set network.lan.proto='static'
+    uci delete network.lan.ipaddr='192.168.5.2'
+    uci delete network.lan.netmask='255.255.255.0'
+    uci delete network.lan.gateway='192.168.5.1'
+    uci delete network.lan.dns='223.5.5.5'
     uci commit network
 elif [ "$count" -gt 1 ]; then
     # 多网口设备配置
@@ -105,8 +105,8 @@ elif [ "$count" -gt 1 ]; then
         uci set network.lan.ipaddr=$CUSTOM_IP
         echo "custom router ip is $CUSTOM_IP" >> $LOGFILE
     else
-        uci set network.lan.ipaddr='192.168.3.5'
-        echo "default router ip is 192.168.3.5" >> $LOGFILE
+        uci set network.lan.ipaddr='192.168.5.2'
+        echo "default router ip is 192.168.5.2" >> $LOGFILE
     fi
 
     # PPPoE设置
